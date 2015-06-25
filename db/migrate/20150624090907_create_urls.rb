@@ -7,4 +7,3 @@ class CreateUrls < ActiveRecord::Migration
     end
   end
 end
-

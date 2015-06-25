@@ -1,20 +1,31 @@
 class Url < ActiveRecord::Base
   # Remember to create a migration!
-  validates :url, format: { with: /https?:\/\/[\S]+/, message: "only valid URL please"}
+  validates :url, format: { with: /https?:\/\/[\S]+/}
+  before_create :generate_shortened_url
 
+  def update_count
+
+    self.click_count += 1
+    save
   end
 
-  def self.update_count(id)
-   Url.update(Url.id, :click_count => Url.click_count+1)
+
+
+  private
+
+  def generate_shortened_url
+    self.shortened_url = SecureRandom.hex(5)
   end
+
+
 end
 
 
-# def initialize
-# end
+  # def self.create_new(user_url)
+  #   @url = Url.create(url: user_url)
+  #   # if @url.new_record?
+  #     # redirect to error page
+  #   @new_url = @url.created_at.to_i.to_s + @url.id.to_s
+  #   @updated_url = Url.update(@url.id, :shortened_url => @new_url)
+  # end
 
-# def self.before_save()
-# end
-
-# url = Url.new
-# url.save

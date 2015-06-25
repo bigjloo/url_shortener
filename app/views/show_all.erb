@@ -1,0 +1,18 @@
+<% @urls.each do |url| %>
+  Long Url: <%= url.url  %><br>
+  Short Url: <a href= "<%="http://localhost:9393/#{url.shortened_url}" %>"><%="http://localhost:9393/#{url.shortened_url}" %></a><br>
+  ------------------------------ <br>
+<% end %>
+
+<% if !@error.nil? %>
+  <b><%= @error %></b><br>
+<% end %>
+
+<a href="/urls/new"> Click here to create new link</a>
+<br><br>
+<div>
+  <form action= "/urls" method= "post">
+    <input type= "text" name= "url[url]" placeholder= "URL here!" value="http://">
+    <input type= "submit" value= "Shorten!">
+  </form>
+</div>
