@@ -1,6 +1,18 @@
+<% if !@success_message.nil? %>
+  <b><%= @success_message %></b><br>
+<% end %>
+
+
 <% @urls.each do |url| %>
   Long Url: <%= url.url  %><br>
   Short Url: <a href= "<%="http://localhost:9393/#{url.shortened_url}" %>"><%="http://localhost:9393/#{url.shortened_url}" %></a><br>
+
+  <a href= "urls/<%= url.id %>/edit" %>">Edit</a>
+  <form action="urls/<%= url.id %>" method="post">
+      <input name="_method" type="hidden" value="delete" />
+      <button type="submit" class="btn btn-success btn-xs">Delete</button>
+  </form>
+
   ------------------------------ <br>
 <% end %>
 

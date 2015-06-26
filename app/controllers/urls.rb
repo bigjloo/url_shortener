@@ -1,23 +1,34 @@
+# use Rack::Session::Cookie, :key => 'rack.session',
+#                            :domain => 'foo.com',
+#                            :path => '/',
+#                            :expire_after => 2592000, # In seconds
+#                            :secret => 'change_me'
+
 get '/urls' do
   @urls = Url.all
-
-  erb :show_all
+  @success_message = "deleted successfully" if !params[:success].nil?
+  @error = "ERROR!!!" if !params[:error].nil?
+  erb :index
 end
 
 get '/urls/new' do
-  @url = Url.new
+  # @url = Url.new
   erb :url_form
 end
 
 post '/urls' do
+
+  # @url = Ur.create(params[:url])
+  # if @url.persisted?
   @url = Url.new(params[:url])
   if @url.save
     redirect to "/urls/#{@url.id}"
+
   else
     @urls = Url.all
     @error = "Please key in the valid url"
     # erb :url_form
-    erb :show_all
+    erb :index
   end
 end
 
@@ -31,7 +42,6 @@ get '/:short_url' do
   @url = Url.find_by_shortened_url(params[:short_url])
   @url.update_count
   redirect to @url.url
-
 end
 
 #   @url = Url.create(url: params[:user_url])
@@ -48,4 +58,29 @@ end
   # @click_count = Url.find_by_id(@id).click_count+1
   # @new_click_count = Url.update(@id, :click_count => @click_count)
 
+get '/urls/:id/edit' do
+  @url = Url.find(params[:id])
 
+  erb :edit_form
+end
+
+patch '/urls/:id' do
+  @url = Url.find(params[:id])
+  @url.update_attributes(params[:url])
+
+  if @url.save
+    redirect to "/urls/#{@url.id}"
+  else
+    @urls = Url.all
+    @error = "Please key in the valid url"
+    erb :index
+  end
+
+end
+
+
+delete '/urls/:id' do
+   @url = Url.find(params[:id])
+   @url.destroy
+   redirect to '/urls?success=true'
+end

@@ -1,0 +1,7 @@
+<div>
+  <form action= "/urls/<%= @url.id %>" method= "post">
+    <input name="_method" type="hidden" value="patch">
+    <input type= "text" name= "url[url]" placeholder= "URL here!" value="<%= @url.url %>">
+    <input type= "submit" value= "Update">
+  </form>
+</div>
