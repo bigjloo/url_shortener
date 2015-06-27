@@ -2,6 +2,7 @@ class Url < ActiveRecord::Base
   # Remember to create a migration!
   validates :url, format: { with: /https?:\/\/[\S]+/}
   before_create :generate_shortened_url
+  belongs_to :user
 
   def update_count
 

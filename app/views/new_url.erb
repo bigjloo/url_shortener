@@ -1,10 +1,16 @@
-<div>
+<div class='container'>
   <h3>New URL page</h3>
   <%= @updated_url.url %>
   <h3>Shortened URL</h3>
   <a href= "<%="http://localhost:9393/#{@updated_url.shortened_url}" %>"><%="http://localhost:9393/#{@updated_url.shortened_url}" %></a>
   <h3>Click Count</h3>
-  <%=@updated_url.click_count %>
+  <%=@updated_url.click_count %><br>
+  <% if logged_in? %>
+  <form action= "/session/log_out" method= "get">
+  <input type= "submit" value= "Log out"><br>
+  </form>
+  <% end %>
+  <a href="/">BACK</a>
 </div>
 
 

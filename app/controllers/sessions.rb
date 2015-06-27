@@ -13,5 +13,5 @@ end
 
 get '/session/log_out' do
   session[:user_id] = nil
-  redirect to '/user/log_in'
+  redirect to '/'
 end

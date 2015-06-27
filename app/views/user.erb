@@ -1,8 +1,27 @@
 <div>
   <h2> USER PERSONAL PAGE</h2>
-  <p>
-    <%= @user.id %>
-  </p>
+  <h3>Welcome <%= @user.name %></h3>
+   <form action= "/urls" method= "post">
+    <input type= "text" name= "url[url]" placeholder= "URL here!" value="http://">
+    <input type= "submit" value= "Shorten!">
+  </form>
+  <section>
+    <% @user.urls.reverse.each do |url| %>
+      ---------------------------------<br>
+      Long Url: <br><%= url.url  %><br>
+      Short Url: <br><a href= "<%="http://localhost:9393/#{url.shortened_url}" %>"><%="http://localhost:9393/#{url.shortened_url}" %></a><br>
+      Click Count: <%= url.click_count %><br>
+      <form action= "/urls/<%= url.id %>/edit" method= "get">
+        <input type= "submit" value="Edit!">
+      </form>
+      <form action="/urls/<%= url.id %>" method="post">
+        <input name="_method" type="hidden" value="delete" />
+        <button type="submit" class="btn btn-success btn-xs">Delete!</button>
+      </form>
+      ---------------------------------<br>
+    <% end %>
+  </section>
+  <br><br>
   <form action= "/session/log_out" method= "get">
   <input type= "submit" value= "Log out">
   </form>

@@ -1,38 +1,41 @@
+<div class= 'container'>
 <% if !@success_message.nil? %>
-  <b><%= @success_message %></b><br>
-<% end %>
-
-
-<% @urls.each do |url| %>
-  Long Url: <br><a href= "<%="http://localhost:9393/#{url.url}" %>"><%= url.url  %></a><br>
-  Short Url: <br><a href= "<%="http://localhost:9393/#{url.shortened_url}" %>"><%="http://localhost:9393/#{url.shortened_url}" %></a><br>
-  <form action= "urls/<%= url.id %>/edit" method= "post">
-    <input type= "submit" value="Edit!">
-  </form>
-<!--   <a href= "urls/<%= url.id %>/edit" %>">Edit</a> -->
-  <form action="urls/<%= url.id %>" method="post">
-      <input name="_method" type="hidden" value="delete" />
-      <button type="submit" class="btn btn-success btn-xs">Delete!</button>
-  </form>
-
-  ------------------------------ <br>
+  <h1><%= @success_message %></h1><br>
 <% end %>
 
 <% if !@error.nil? %>
-  <b><%= @error %></b><br>
+  <h1><%= @error %></h1><br>
 <% end %>
 
 <a href="/urls/new"> Click here to create new link</a>
 <br><br>
-<div>
+
   <form action= "/urls" method= "post">
     <input type= "text" name= "url[url]" placeholder= "URL here!" value="http://">
     <input type= "submit" value= "Shorten!">
   </form>
+  <% unless logged_in? %>
   <form action= "/user/log_in" method= "get">
     <input type= "submit" value= "USER LOG IN" >
   </form>
   <form action= "/user/new" method= "get">
     <input type= "submit" value= "Sign Up!" >
   </form>
+  <% end %>
+
+<% @urls.reverse.each do |url| %>
+  <% if url.user_id.nil? %>
+    Long Url: <br><a href= "<%="http://localhost:9393/#{url.url}" %>"><%= url.url  %></a><br>
+    Short Url: <br><a href= "<%="http://localhost:9393/#{url.shortened_url}" %>"><%="http://localhost:9393/#{url.shortened_url}" %></a><br>
+    <form action= "urls/<%= url.id %>/edit" method= "get">
+      <input type= "submit" value="Edit!">
+    </form>
+    <form action="urls/<%= url.id %>" method="post">
+      <input name="_method" type="hidden" value="delete" />
+      <button type="submit" class="btn btn-success btn-xs">Delete!</button>
+    </form>
+    ------------------------------ <br>
+    <% end %>
+<% end %>
 </div>
+
